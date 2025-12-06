@@ -148,23 +148,17 @@ const Profile = () => {
                           <Icon name="MapPin" size={16} />
                           <span>Красноярск</span>
                         </div>
-                        {user.subscription === 'premium' && (
-                          <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white">
-                            <Icon name="Crown" size={14} className="mr-1" />
-                            Премиум (150₽)
-                          </Badge>
-                        )}
-                        {user.subscription === 'premium_plus' && (
-                          <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white">
-                            <Icon name="Sparkles" size={14} className="mr-1" />
-                            Премиум Плюс (249₽)
+                        {(user.subscription === 'premium' || user.subscription === 'premium_plus') && (
+                          <Badge className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-base px-3 py-1">
+                            <Icon name="Sparkles" size={16} className="mr-1" />
+                            Полный доступ навсегда
                           </Badge>
                         )}
                       </div>
                       {!user.subscription && (
-                        <Button onClick={() => navigate('/user-subscription')} variant="outline" size="sm">
-                          <Icon name="Crown" size={16} className="mr-2" />
-                          Оформить подписку
+                        <Button onClick={() => navigate('/user-subscription')} variant="default" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600" size="sm">
+                          <Icon name="Sparkles" size={16} className="mr-2" />
+                          Получить полный доступ за 500₽
                         </Button>
                       )}
                       {user.completedTest && user.testResult && (

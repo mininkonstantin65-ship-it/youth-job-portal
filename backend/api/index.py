@@ -965,15 +965,16 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 email = str(body_data.get('email', '')).replace("'", "''")
                 password = str(body_data.get('password', '')).replace("'", "''")
                 
+                print(f"🔐 LOGIN ATTEMPT - Email: {email}, Password length: {len(password)}")
+                
                 if not email or not password:
+                    print("❌ Missing email or password")
                     return {
                         'statusCode': 400,
                         'headers': {**cors_headers, 'Content-Type': 'application/json'},
                         'body': json.dumps({'error': 'Email and password required'}),
                         'isBase64Encoded': False
                     }
-                
-                print(f"Login attempt for email: {email}")
                 
                 cur.execute(f"""
                     SELECT id, email, full_name, password_hash,
@@ -986,7 +987,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 row = cur.fetchone()
                 
                 if not row:
-                    print(f"User not found: {email}")
+                    print(f"❌ USER NOT FOUND: {email}")
                     return {
                         'statusCode': 401,
                         'headers': {**cors_headers, 'Content-Type': 'application/json'},
@@ -995,9 +996,12 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     }
                 
                 db_password = row[3]
+                print(f"🔍 COMPARING - Input: '{password}', DB: '{db_password}', Match: {db_password == password}")
                 
                 if db_password != password:
-                    print(f"Invalid password for: {email}")
+                    print(f"❌ INVALID PASSWORD for: {email}")
+                    print(f"   Input length: {len(password)}, DB length: {len(db_password)}")
+                    print(f"   Input repr: {repr(password)}, DB repr: {repr(db_password)}")
                     return {
                         'statusCode': 401,
                         'headers': {**cors_headers, 'Content-Type': 'application/json'},
@@ -1005,7 +1009,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                         'isBase64Encoded': False
                     }
                 
-                print(f"Login successful for: {email}")
+                print(f"✅ LOGIN SUCCESS for: {email}, role: {row[7]}, company: {row[8]}")
                 
                 user_data = {
                     'id': str(row[0]),
@@ -1019,6 +1023,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'completedTest': bool(row[6]),
                     'createdAt': row[9].isoformat() if row[9] else None
                 }
+                
+                print(f"📤 Sending user data: {json.dumps(user_data, indent=2)}")
                 
                 return {
                     'statusCode': 200,

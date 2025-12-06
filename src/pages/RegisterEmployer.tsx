@@ -24,11 +24,11 @@ const RegisterEmployer = () => {
       return;
     }
 
-    const success = await registerEmployer(name, email, password, companyName);
-    if (success) {
+    const result = await registerEmployer(name, email, password, companyName);
+    if (result.success) {
       navigate('/subscription-select');
     } else {
-      setError('Пользователь с таким email уже существует');
+      setError(result.error || 'Произошла ошибка при регистрации');
     }
   };
 

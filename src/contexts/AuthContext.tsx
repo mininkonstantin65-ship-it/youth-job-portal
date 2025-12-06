@@ -23,7 +23,7 @@ interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
   register: (name: string, email: string, password: string, age: number, phone?: string) => Promise<RegisterResult>;
-  registerEmployer: (name: string, email: string, password: string, companyName: string) => Promise<boolean>;
+  registerEmployer: (name: string, email: string, password: string, companyName: string) => Promise<RegisterResult>;
   logout: () => void;
   updateTestResult: (result: string) => void;
   updateSubscription: (subscription: 'basic' | 'premium' | 'premium_plus' | null, expiryDate?: string) => void;
@@ -145,7 +145,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const registerEmployer = async (name: string, email: string, password: string, companyName: string): Promise<boolean> => {
+  const registerEmployer = async (name: string, email: string, password: string, companyName: string): Promise<RegisterResult> => {
     try {
       console.log('🚀 Регистрация работодателя через API:', { name, email, companyName });
       
@@ -165,7 +165,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!response.ok) {
         const errorData = await response.json();
         console.error('❌ Ошибка регистрации работодателя:', errorData);
-        return false;
+        
+        if (errorData.error === 'Email already exists') {
+          return { success: false, error: 'Пользователь с таким email уже существует' };
+        }
+        return { success: false, error: 'Ошибка сервера при регистрации' };
       }
 
       const data = await response.json();
@@ -185,10 +189,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(userToSet);
       localStorage.setItem('user', JSON.stringify(userToSet));
       
-      return true;
+      return { success: true };
     } catch (error) {
       console.error('❌ Критическая ошибка при регистрации работодателя:', error);
-      return false;
+      return { success: false, error: 'Не удалось подключиться к серверу' };
     }
   };
 

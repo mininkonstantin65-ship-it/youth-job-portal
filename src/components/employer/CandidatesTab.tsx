@@ -102,8 +102,14 @@ const CandidatesTab = ({ allUsers, userSubscription }: CandidatesTabProps) => {
                                     <div className="flex-1">
                                       <p className="text-sm font-medium text-muted-foreground mb-2">Рекомендованное направление</p>
                                       <Badge variant="default" className="text-base py-2 px-4 bg-gradient-to-r from-primary to-primary/80 rounded-sm">
-                                        {candidate.testResult}
+                                        {candidate.testResult.split('###')[0]}
                                       </Badge>
+                                      {candidate.testResult.includes('###') && (
+                                        <div className="mt-3">
+                                          <p className="text-sm font-medium text-muted-foreground mb-1">Эмоциональная устойчивость:</p>
+                                          <p className="text-sm">{candidate.testResult.split('###')[1]}</p>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>

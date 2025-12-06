@@ -201,7 +201,7 @@ const Test = () => {
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-2xl mx-auto">
             <div className="bg-card p-8 rounded-none border border-border text-center shadow-lg">
-              <div className="bg-green-500/10 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <div className="bg-green-500/10 p-4 rounded-none w-20 h-20 mx-auto mb-6 flex items-center justify-center">
                 <Icon name="CheckCircle" size={48} className="text-green-500" />
               </div>
 
@@ -291,7 +291,7 @@ const Test = () => {
             </div>
           </div>
 
-          <div className="bg-card p-8 rounded-lg border border-border shadow-lg">
+          <div className="bg-card p-8 rounded-none border border-border shadow-lg">
             <div className="mb-8">
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-3">
                 Оцените утверждение
@@ -316,7 +316,7 @@ const Test = () => {
                 <button
                   key={option.score}
                   onClick={() => handleAnswer(option.score)}
-                  className={`w-full text-left p-4 rounded-lg border-2 border-border bg-card
+                  className={`w-full text-left p-4 rounded-none border-2 border-border bg-card
                     hover:bg-secondary/50 hover:shadow-md transition-all duration-200
                     ${option.color} hover:scale-[1.02] active:scale-[0.98]`}
                 >
@@ -342,7 +342,7 @@ const Test = () => {
             )}
           </div>
 
-          <div className="mt-6 p-4 bg-card/50 rounded-lg border border-border">
+          <div className="mt-6 p-4 bg-card/50 rounded-none border border-border">
             <p className="text-xs text-muted-foreground text-center">
               💡 Пожалуйста, внимательно прочитайте каждое утверждение и выберите вариант ответа, 
               который наиболее точно отражает ваше мнение или поведение. Здесь нет "правильных" 

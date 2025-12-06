@@ -219,6 +219,7 @@ const Chat = () => {
           jobId: Number(id),
           jobTitle: jobInfo?.title || '',
           date: interviewDateTime,
+          time: interviewTime,
           location: 'Офис компании',
           notes: 'Собеседование назначено работодателем'
         })

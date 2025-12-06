@@ -109,13 +109,13 @@ const JobDetails = () => {
           </div>
           <h2 className="text-2xl font-bold mb-4">Премиум-вакансия</h2>
           <p className="text-muted-foreground mb-6">
-            Эта вакансия доступна только пользователям с премиум-подпиской
+            Эта вакансия доступна только пользователям с полным доступом
           </p>
           <div className="space-y-3">
             {user ? (
-              <Button onClick={() => navigate('/user-subscription')} size="lg" className="w-full">
-                <Icon name="Crown" size={20} className="mr-2" />
-                Оформить премиум за 150₽
+              <Button onClick={() => navigate('/user-subscription')} size="lg" className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600">
+                <Icon name="Sparkles" size={20} className="mr-2" />
+                Получить полный доступ за 500₽
               </Button>
             ) : (
               <Button onClick={() => navigate('/register')} size="lg" className="w-full">

@@ -129,7 +129,18 @@ const ResponsesTab = ({ responses, responsesByJob, formatTime }: ResponsesTabPro
                                 <div className="space-y-4 py-4">
                                   <div>
                                     <p className="text-sm text-muted-foreground mb-2">Контакты:</p>
-                                    <p className="font-medium">{candidate.email}</p>
+                                    <div className="space-y-1">
+                                      <div className="flex items-center gap-2">
+                                        <Icon name="Mail" size={16} className="text-muted-foreground" />
+                                        <p className="font-medium">{candidate.email}</p>
+                                      </div>
+                                      {candidate.phone && (
+                                        <div className="flex items-center gap-2">
+                                          <Icon name="Phone" size={16} className="text-muted-foreground" />
+                                          <p className="font-medium">{candidate.phone}</p>
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
                                   
                                   {candidate.completedTest && candidate.testResult ? (
@@ -144,9 +155,16 @@ const ResponsesTab = ({ responses, responsesByJob, formatTime }: ResponsesTabPro
                                           <div>
                                             <p className="text-sm text-muted-foreground mb-2">Рекомендованная категория:</p>
                                             <Badge variant="default" className="text-base py-1 px-3">
-                                              {candidate.testResult}
+                                              {candidate.testResult.split('###')[0]}
                                             </Badge>
                                           </div>
+                                          
+                                          {candidate.testResult.includes('###') && (
+                                            <div>
+                                              <p className="text-sm text-muted-foreground mb-2">Эмоциональная устойчивость:</p>
+                                              <p className="text-sm">{candidate.testResult.split('###')[1]}</p>
+                                            </div>
+                                          )}
                                           
                                           <div>
                                             <p className="text-sm text-muted-foreground mb-2">Процент совпадения:</p>

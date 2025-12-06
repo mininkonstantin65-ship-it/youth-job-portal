@@ -46,7 +46,7 @@ interface CandidateFullData {
 const ResponsesTab = ({ responses, responsesByJob, formatTime }: ResponsesTabProps) => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const isPremium = user?.subscription === 'premium';
+  const isPremium = user?.subscription === 'premium' || user?.subscription === 'premium_plus';
 
   const getCandidateData = (userId: string): CandidateFullData | null => {
     const users = JSON.parse(localStorage.getItem('users') || '[]');

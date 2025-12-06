@@ -13,11 +13,11 @@ import {
 
 interface CandidatesTabProps {
   allUsers: any[];
-  userSubscription?: 'basic' | 'premium' | null;
+  userSubscription?: 'basic' | 'premium' | 'premium_plus' | null;
 }
 
 const CandidatesTab = ({ allUsers, userSubscription }: CandidatesTabProps) => {
-  const isPremium = userSubscription === 'premium';
+  const isPremium = userSubscription === 'premium' || userSubscription === 'premium_plus';
   return (
     <Card>
       <CardHeader>

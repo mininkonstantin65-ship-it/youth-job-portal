@@ -135,11 +135,11 @@ const Test = () => {
       emotionalDescription = 'Вы можете быть более чувствительны к стрессу, часто испытывать тревогу, раздражение или трудности с восстановлением. Важно уделять внимание развитию стратегий совладания со стрессом.';
     }
 
-    return `${maxCategory.name}|||${emotionalDescription}`;
+    return `${maxCategory.name}###${emotionalDescription}`;
   };
 
   const getEmotionalDescription = (result: string): string => {
-    const parts = result.split('|||');
+    const parts = result.split('###');
     return parts[1] || '';
   };
 
@@ -178,14 +178,14 @@ const Test = () => {
     };
 
     // Извлекаем основную категорию из результата
-    const parts = result.split('|||');
+    const parts = result.split('###');
     const mainCategory = Object.keys(recommendations).find(key => parts[0].includes(key));
     return mainCategory ? recommendations[mainCategory] : [];
   };
 
   if (showResult) {
     const result = user.testResult || '';
-    const parts = result.split('|||');
+    const parts = result.split('###');
     const mainResult = parts[0] || result;
     const emotionalText = getEmotionalDescription(result);
     const recommendations = getRecommendations(result);
@@ -200,20 +200,20 @@ const Test = () => {
 
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-2xl mx-auto">
-            <div className="bg-card p-8 rounded-lg border border-border text-center shadow-lg">
+            <div className="bg-card p-8 rounded-none border border-border text-center shadow-lg">
               <div className="bg-green-500/10 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
                 <Icon name="CheckCircle" size={48} className="text-green-500" />
               </div>
 
               <h1 className="text-3xl font-bold mb-4">Тест завершен!</h1>
               
-              <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-lg mb-6 border border-primary/20">
+              <div className="bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-none mb-6 border border-primary/20">
                 <p className="text-muted-foreground mb-2">Ваш профессиональный профиль:</p>
                 <p className="text-2xl font-bold text-primary mb-4">{mainResult}</p>
               </div>
 
               {emotionalText && (
-                <div className="text-left mb-6 bg-blue-500/5 p-6 rounded-lg border border-blue-500/20">
+                <div className="text-left mb-6 bg-blue-500/5 p-6 rounded-none border border-blue-500/20">
                   <h3 className="font-semibold mb-3 flex items-center gap-2 text-lg">
                     <Icon name="Heart" size={22} className="text-blue-500" />
                     Эмоциональная устойчивость:
@@ -222,7 +222,7 @@ const Test = () => {
                 </div>
               )}
 
-              <div className="text-left mb-6 bg-secondary/30 p-6 rounded-lg">
+              <div className="text-left mb-6 bg-secondary/30 p-6 rounded-none">
                 <h3 className="font-semibold mb-4 flex items-center gap-2 text-lg">
                   <Icon name="Briefcase" size={22} className="text-primary" />
                   Рекомендованные вакансии:

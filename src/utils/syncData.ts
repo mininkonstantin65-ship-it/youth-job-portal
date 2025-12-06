@@ -41,24 +41,31 @@ export async function loadJobsFromDatabase(): Promise<any[]> {
 
 export async function saveJobToDatabase(job: any): Promise<boolean> {
   try {
-    console.log('🚀 Отправка вакансии в БД:', job);
+    console.log('🚀 ОТПРАВКА ВАКАНСИИ - URL:', JOBS_API);
+    console.log('📦 Данные вакансии:', JSON.stringify(job, null, 2));
+    
     const response = await fetch(JOBS_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(job)
     });
     
+    console.log('📡 HTTP статус ответа:', response.status);
+    console.log('📋 Headers ответа:', Object.fromEntries(response.headers.entries()));
+    
     if (response.ok) {
       const data = await response.json();
-      console.log('✅ Вакансия сохранена в БД, ID:', data.id);
+      console.log('✅ УСПЕХ! Вакансия сохранена, ответ сервера:', data);
       return true;
     } else {
       const errorText = await response.text();
-      console.error('❌ Ошибка сохранения вакансии:', response.status, errorText);
+      console.error('❌ ОШИБКА HTTP:', response.status);
+      console.error('📄 Тело ошибки:', errorText);
       return false;
     }
   } catch (error) {
-    console.error('❌ Критическая ошибка при сохранении вакансии:', error);
+    console.error('❌ КРИТИЧЕСКАЯ ОШИБКА при fetch:', error);
+    console.error('🔍 Детали ошибки:', error instanceof Error ? error.message : String(error));
     return false;
   }
 }

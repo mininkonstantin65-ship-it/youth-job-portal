@@ -11,6 +11,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     method: str = event.get('httpMethod', 'GET')
     path: str = event.get('path', '/')
     
+    print(f"🟢 Handler START - Method: {method}, Path: {path}")
+    
     cors_headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -19,6 +21,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     }
     
     if method == 'OPTIONS':
+        print("⚪ OPTIONS request - returning CORS headers")
         return {
             'statusCode': 200,
             'headers': cors_headers,
@@ -27,14 +30,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
     
     db_url = os.environ.get('DATABASE_URL')
+    print(f"🔗 Connecting to DB...")
     
     try:
         conn = psycopg2.connect(db_url)
         cur = conn.cursor()
+        print(f"✅ DB connected")
         
         # Определяем ресурс из query параметра: ?resource=users
         query_params = event.get('queryStringParameters') or {}
         resource = query_params.get('resource', 'users')
+        print(f"📍 Resource: {resource}, Method: {method}")
         
         # === USERS API ===
         if resource == 'users':
@@ -1051,13 +1057,18 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
     
     except Exception as e:
-        print(f"Error: {str(e)}")
+        import traceback
+        error_trace = traceback.format_exc()
+        print(f"❌ EXCEPTION CAUGHT!")
+        print(f"❌ Error type: {type(e).__name__}")
+        print(f"❌ Error message: {str(e)}")
+        print(f"❌ Full traceback:\n{error_trace}")
         if 'conn' in locals():
             conn.rollback()
         return {
             'statusCode': 500,
             'headers': {**cors_headers, 'Content-Type': 'application/json'},
-            'body': json.dumps({'error': str(e)}),
+            'body': json.dumps({'error': str(e), 'type': type(e).__name__}),
             'isBase64Encoded': False
         }
     

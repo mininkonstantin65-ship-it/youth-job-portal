@@ -213,25 +213,26 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 job_type = str(body_data.get('type', '')).replace("'", "''")
                 salary = str(body_data.get('salary', '')).replace("'", "''")
                 description = str(body_data.get('description', '')).replace("'", "''")
-                requirements = json.dumps(body_data.get('requirements', []))
+                requirements = json.dumps(body_data.get('requirements', [])).replace("'", "''")
                 employer_id = str(body_data.get('employerId', '')).replace("'", "''")
                 employer_email = str(body_data.get('employerEmail', '')).replace("'", "''")
                 age_range = str(body_data.get('ageRange', '14-17')).replace("'", "''")
                 category = str(body_data.get('category', 'Работа с людьми')).replace("'", "''")
                 
                 coordinates = body_data.get('coordinates', [56.0184, 92.8672])
-                coords_json = json.dumps(coordinates)
+                coords_json = json.dumps(coordinates).replace("'", "''")
                 
                 is_premium = 'true' if body_data.get('isPremium', False) else 'false'
                 
-                responsibilities = json.dumps(body_data.get('responsibilities', []))
-                conditions = json.dumps(body_data.get('conditions', []))
+                responsibilities = json.dumps(body_data.get('responsibilities', [])).replace("'", "''")
+                conditions = json.dumps(body_data.get('conditions', [])).replace("'", "''")
                 
                 contact = body_data.get('contact', {})
                 contact_phone = str(contact.get('phone', '+7 (391) 234-56-78')).replace("'", "''")
                 contact_email = str(contact.get('email', employer_email or 'hr@company.ru')).replace("'", "''")
                 
                 print(f"📝 Creating job: '{title}' for employer {employer_id} ({employer_email})")
+                print(f"🔍 JSON data - requirements: {requirements[:100]}, coords: {coords_json}, responsibilities: {responsibilities[:100]}")
                 
                 cur.execute(f"""
                     INSERT INTO t_p86122027_youth_job_portal.jobs 

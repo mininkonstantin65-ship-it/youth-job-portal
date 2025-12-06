@@ -38,6 +38,15 @@ const CreateJob = () => {
     loadJobs();
   }, []);
 
+  useEffect(() => {
+    if (user?.companyName) {
+      console.log('📌 Установка названия компании из профиля:', user.companyName);
+      setCompany(user.companyName);
+    } else {
+      console.warn('⚠️ У пользователя нет названия компании!', user);
+    }
+  }, [user]);
+
   if (!user || user.role !== 'employer') {
     navigate('/');
     return null;
@@ -85,6 +94,13 @@ const CreateJob = () => {
       return;
     }
 
+    console.log('📝 Создание вакансии, данные пользователя:', { 
+      userId: user.id, 
+      userEmail: user.email, 
+      company,
+      title 
+    });
+
     const newJob = {
       id: Date.now().toString(),
       title,
@@ -108,12 +124,15 @@ const CreateJob = () => {
       }
     };
 
+    console.log('📦 Подготовленная вакансия для отправки:', newJob);
+
     const success = await saveJobToDatabase(newJob);
     
     if (success) {
       console.log('✅ Вакансия успешно создана и сохранена в БД');
       navigate('/employer-profile');
     } else {
+      console.error('❌ Не удалось создать вакансию');
       setError('Не удалось создать вакансию. Попробуйте ещё раз.');
     }
   };

@@ -158,7 +158,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           name, 
           age: 25,
           phone: '',
-          role: 'employer'
+          role: 'employer',
+          companyName: companyName
         })
       });
 

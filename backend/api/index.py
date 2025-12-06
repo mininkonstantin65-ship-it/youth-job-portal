@@ -43,7 +43,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 cur.execute("""
                     SELECT id, email, full_name, 
                            EXTRACT(YEAR FROM AGE(date_of_birth))::int as age,
-                           phone, test_result, role, created_at
+                           phone, test_result, role, company_name, created_at
                     FROM t_p86122027_youth_job_portal.users
                     ORDER BY created_at DESC
                 """)
@@ -59,9 +59,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                         'phone': row[4],
                         'testResult': row[5],
                         'role': row[6] if row[6] else 'user',
+                        'company_name': row[7],
                         'completedTest': bool(row[5]),
                         'password_hash': 'hidden',
-                        'createdAt': row[7].isoformat() if row[7] else None
+                        'createdAt': row[8].isoformat() if row[8] else None
                     })
                 
                 return {
@@ -79,8 +80,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 age = body_data.get('age', 0)
                 phone = str(body_data.get('phone', '')).replace("'", "''")
                 role = str(body_data.get('role', 'user')).replace("'", "''")
+                company_name = str(body_data.get('companyName', '')).replace("'", "''")
                 
-                print(f"Attempting registration for email: {email}")
+                print(f"Attempting registration for email: {email}, role: {role}, company: {company_name}")
                 
                 cur.execute(f"""
                     SELECT id FROM t_p86122027_youth_job_portal.users 
@@ -105,8 +107,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 
                 cur.execute(f"""
                     INSERT INTO t_p86122027_youth_job_portal.users 
-                    (email, password_hash, full_name, date_of_birth, phone, role, created_at, updated_at)
-                    VALUES ('{email}', '{password}', '{name}', '{date_of_birth}', '{phone}', '{role}', NOW(), NOW())
+                    (email, password_hash, full_name, date_of_birth, phone, role, company_name, created_at, updated_at)
+                    VALUES ('{email}', '{password}', '{name}', '{date_of_birth}', '{phone}', '{role}', '{company_name}', NOW(), NOW())
                     RETURNING id
                 """)
                 
@@ -125,6 +127,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                         'age': age,
                         'phone': phone,
                         'role': role,
+                        'company_name': company_name,
                         'completedTest': False
                     }),
                     'isBase64Encoded': False
@@ -975,7 +978,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 cur.execute(f"""
                     SELECT id, email, full_name, password_hash,
                            EXTRACT(YEAR FROM AGE(date_of_birth))::int as age,
-                           phone, test_result, role, created_at
+                           phone, test_result, role, company_name, created_at
                     FROM t_p86122027_youth_job_portal.users
                     WHERE email = '{email}'
                 """)
@@ -1012,8 +1015,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     'phone': row[5],
                     'testResult': row[6],
                     'role': row[7] if row[7] else 'user',
+                    'company_name': row[8],
                     'completedTest': bool(row[6]),
-                    'createdAt': row[8].isoformat() if row[8] else None
+                    'createdAt': row[9].isoformat() if row[9] else None
                 }
                 
                 return {

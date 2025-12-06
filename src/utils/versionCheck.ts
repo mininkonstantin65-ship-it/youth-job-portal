@@ -1,4 +1,4 @@
-const CURRENT_VERSION = '2.2.0';
+const CURRENT_VERSION = '2.3.0';
 const VERSION_KEY = 'app_version';
 
 export const checkAndUpdateVersion = (): void => {

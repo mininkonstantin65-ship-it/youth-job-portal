@@ -1,1 +1,1 @@
-{"version":"2.2.0","updated":"2025-12-06T20:52:00.000Z","changelog":"Fixed job publishing across devices - removed localStorage conflicts, all jobs now sync via database"}
+{"version":"2.3.0","updated":"2025-12-06T21:15:00.000Z","changelog":"Fixed employer registration - company name now saved to database, job creation works correctly"}

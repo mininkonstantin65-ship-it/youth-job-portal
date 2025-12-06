@@ -213,19 +213,19 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 job_type = str(body_data.get('type', '')).replace("'", "''")
                 salary = str(body_data.get('salary', '')).replace("'", "''")
                 description = str(body_data.get('description', '')).replace("'", "''")
-                requirements = json.dumps(body_data.get('requirements', [])).replace("'", "''")
+                requirements = json.dumps(body_data.get('requirements', []))
                 employer_id = str(body_data.get('employerId', '')).replace("'", "''")
                 employer_email = str(body_data.get('employerEmail', '')).replace("'", "''")
                 age_range = str(body_data.get('ageRange', '14-17')).replace("'", "''")
                 category = str(body_data.get('category', 'Работа с людьми')).replace("'", "''")
                 
                 coordinates = body_data.get('coordinates', [56.0184, 92.8672])
-                coords_json = json.dumps(coordinates).replace("'", "''")
+                coords_json = json.dumps(coordinates)
                 
                 is_premium = 'true' if body_data.get('isPremium', False) else 'false'
                 
-                responsibilities = json.dumps(body_data.get('responsibilities', [])).replace("'", "''")
-                conditions = json.dumps(body_data.get('conditions', [])).replace("'", "''")
+                responsibilities = json.dumps(body_data.get('responsibilities', []))
+                conditions = json.dumps(body_data.get('conditions', []))
                 
                 contact = body_data.get('contact', {})
                 contact_phone = str(contact.get('phone', '+7 (391) 234-56-78')).replace("'", "''")
@@ -240,9 +240,9 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                      age_range, category, coordinates, is_premium, 
                      responsibilities, conditions, contact_phone, contact_email)
                     VALUES ('{job_id}', '{title}', '{company}', '{location}', '{job_type}', 
-                            '{salary}', '{description}', '{requirements}', '{employer_id}', 
+                            '{salary}', '{description}', '{requirements}'::jsonb, '{employer_id}', 
                             '{employer_email}', NOW(), NOW(), '{age_range}', '{category}', 
-                            '{coords_json}', {is_premium}, '{responsibilities}', '{conditions}', 
+                            '{coords_json}'::jsonb, {is_premium}, '{responsibilities}'::jsonb, '{conditions}'::jsonb, 
                             '{contact_phone}', '{contact_email}')
                     RETURNING id
                 """)

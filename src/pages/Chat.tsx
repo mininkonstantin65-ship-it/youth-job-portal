@@ -31,6 +31,7 @@ const Chat = () => {
   const [interviewTime, setInterviewTime] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [jobInfo, setJobInfo] = useState<any>(null);
+  const [chatPartnerName, setChatPartnerName] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const urlParams = new URLSearchParams(window.location.search);
@@ -60,6 +61,26 @@ const Chat = () => {
   }, [id]);
 
   useEffect(() => {
+    const loadChatPartnerName = async () => {
+      if (!chatPartnerId) return;
+      
+      try {
+        const response = await fetch(`${API_BASE}?resource=users`);
+        if (response.ok) {
+          const data = await response.json();
+          const partner = data.users.find((u: any) => u.id === chatPartnerId);
+          if (partner) {
+            setChatPartnerName(partner.name || partner.email);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading chat partner:', error);
+      }
+    };
+    loadChatPartnerName();
+  }, [chatPartnerId]);
+
+  useEffect(() => {
     const loadMessages = async () => {
       if (!user || !chatPartnerId || !id) return;
       
@@ -86,8 +107,8 @@ const Chat = () => {
             id: msg.id,
             text: msg.messageText || msg.message_text,
             senderId: msg.senderId || msg.sender_id,
-            senderName: (msg.senderId || msg.sender_id) === user.id ? user.name : 'Работодатель',
-            senderRole: (msg.senderId || msg.sender_id) === user.id ? (user.role === 'employer' ? 'employer' : 'user') : 'employer',
+            senderName: (msg.senderId || msg.sender_id) === user.id ? user.name : (chatPartnerName || 'Собеседник'),
+            senderRole: (msg.senderId || msg.sender_id) === user.id ? (user.role === 'employer' ? 'employer' : 'user') : (user.role === 'employer' ? 'user' : 'employer'),
             timestamp: new Date(msg.createdAt || msg.created_at).getTime()
           }));
           
@@ -142,8 +163,8 @@ const Chat = () => {
             id: msg.id,
             text: msg.messageText || msg.message_text,
             senderId: msg.senderId || msg.sender_id,
-            senderName: (msg.senderId || msg.sender_id) === user.id ? user.name : 'Работодатель',
-            senderRole: (msg.senderId || msg.sender_id) === user.id ? (user.role === 'employer' ? 'employer' : 'user') : 'employer',
+            senderName: (msg.senderId || msg.sender_id) === user.id ? user.name : (chatPartnerName || 'Собеседник'),
+            senderRole: (msg.senderId || msg.sender_id) === user.id ? (user.role === 'employer' ? 'employer' : 'user') : (user.role === 'employer' ? 'user' : 'employer'),
             timestamp: new Date(msg.createdAt || msg.created_at).getTime()
           }));
           

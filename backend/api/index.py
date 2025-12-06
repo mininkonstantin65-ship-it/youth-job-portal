@@ -188,7 +188,17 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             
             if method == 'POST':
-                body_data = json.loads(event.get('body', '{}'))
+                print("🔵 POST /jobs - Starting job creation")
+                raw_body = event.get('body', '{}')
+                print(f"📥 Raw body length: {len(raw_body)} chars")
+                
+                try:
+                    body_data = json.loads(raw_body)
+                    print(f"✅ JSON parsed OK, keys: {list(body_data.keys())}")
+                except Exception as parse_error:
+                    print(f"❌ JSON PARSE ERROR: {parse_error}")
+                    print(f"📄 Raw body (first 500 chars): {raw_body[:500]}")
+                    raise
                 
                 job_id = str(body_data.get('id', '')).replace("'", "''")
                 title = str(body_data.get('title', '')).replace("'", "''")
@@ -215,7 +225,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 contact_phone = str(contact.get('phone', '+7 (391) 234-56-78')).replace("'", "''")
                 contact_email = str(contact.get('email', employer_email or 'hr@company.ru')).replace("'", "''")
                 
-                print(f"Creating job: {title}")
+                print(f"📝 Creating job: '{title}' for employer {employer_id} ({employer_email})")
                 
                 cur.execute(f"""
                     INSERT INTO t_p86122027_youth_job_portal.jobs 

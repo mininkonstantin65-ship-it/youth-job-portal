@@ -27,13 +27,9 @@ const EmployerProfile = () => {
       if (!user) return;
 
       const dbJobs = await loadJobsFromDatabase();
-      const stored = localStorage.getItem('jobs');
-      const localJobs: Job[] = stored ? JSON.parse(stored) : defaultJobs;
-      const loadedJobs = dbJobs.length > 0 ? dbJobs : localJobs;
+      const loadedJobs = dbJobs.length > 0 ? dbJobs : defaultJobs;
       setAllJobs(loadedJobs);
-      if (dbJobs.length > 0) {
-        localStorage.setItem('jobs', JSON.stringify(dbJobs));
-      }
+      console.log('✅ Загружено вакансий из БД:', dbJobs.length);
 
       try {
         const response = await fetch('https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=users');

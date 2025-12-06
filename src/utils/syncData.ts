@@ -53,6 +53,36 @@ export async function saveJobToDatabase(job: any): Promise<boolean> {
   }
 }
 
+export async function updateJobInDatabase(job: any): Promise<boolean> {
+  try {
+    const response = await fetch(JOBS_API, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(job)
+    });
+    console.log(response.ok ? '✅ Вакансия обновлена в БД' : '❌ Ошибка обновления');
+    return response.ok;
+  } catch (error) {
+    console.error('Error updating job:', error);
+    return false;
+  }
+}
+
+export async function deleteJobFromDatabase(jobId: string): Promise<boolean> {
+  try {
+    const response = await fetch(JOBS_API, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: jobId })
+    });
+    console.log(response.ok ? '✅ Вакансия удалена из БД' : '❌ Ошибка удаления');
+    return response.ok;
+  } catch (error) {
+    console.error('Error deleting job:', error);
+    return false;
+  }
+}
+
 export async function saveApplicationToDatabase(application: any): Promise<boolean> {
   try {
     const result = await fetch(APPLICATIONS_API, {

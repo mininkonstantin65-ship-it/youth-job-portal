@@ -1,1 +1,1 @@
-{"version":"2.1.0","updated":"2025-12-06T20:29:00.000Z","changelog":"Fixed employer registration - now uses correct API endpoint with role parameter"}
+{"version":"2.2.0","updated":"2025-12-06T20:52:00.000Z","changelog":"Fixed job publishing across devices - removed localStorage conflicts, all jobs now sync via database"}

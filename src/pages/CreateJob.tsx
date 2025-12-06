@@ -30,8 +30,12 @@ const CreateJob = () => {
   const [allJobs, setAllJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem('jobs');
-    setAllJobs(stored ? JSON.parse(stored) : defaultJobs);
+    const loadJobs = async () => {
+      const { loadJobsFromDatabase } = await import('@/utils/syncData');
+      const jobsFromDB = await loadJobsFromDatabase();
+      setAllJobs(jobsFromDB.length > 0 ? jobsFromDB : defaultJobs);
+    };
+    loadJobs();
   }, []);
 
   if (!user || user.role !== 'employer') {
@@ -104,11 +108,14 @@ const CreateJob = () => {
       }
     };
 
-    await saveJobToDatabase(newJob);
-
-    const updatedJobs = [...allJobs, newJob];
-    localStorage.setItem('jobs', JSON.stringify(updatedJobs));
-    navigate('/employer-profile');
+    const success = await saveJobToDatabase(newJob);
+    
+    if (success) {
+      console.log('✅ Вакансия успешно создана и сохранена в БД');
+      navigate('/employer-profile');
+    } else {
+      setError('Не удалось создать вакансию. Попробуйте ещё раз.');
+    }
   };
 
   return (

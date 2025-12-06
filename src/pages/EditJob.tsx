@@ -33,10 +33,8 @@ const EditJob = () => {
     const loadJob = async () => {
       if (!id) return;
       
-      const jobs = await loadJobsFromDatabase();
-      const stored = localStorage.getItem('jobs');
-      const localJobs = stored ? JSON.parse(stored) : [];
-      const allJobs = jobs.length > 0 ? jobs : localJobs;
+      const allJobs = await loadJobsFromDatabase();
+      console.log('✅ Загружено вакансий для редактирования:', allJobs.length);
       
       const job = allJobs.find((j: any) => j.id.toString() === id);
       

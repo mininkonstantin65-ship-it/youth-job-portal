@@ -138,6 +138,38 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                     }),
                     'isBase64Encoded': False
                 }
+            
+            if method == 'PUT':
+                user_id = params.get('id', '')
+                body_data = json.loads(event.get('body', '{}'))
+                
+                print(f"🔄 Обновление пользователя id={user_id}, данные: {body_data}")
+                
+                if 'testResult' in body_data:
+                    test_result = str(body_data['testResult']).replace("'", "''")
+                    
+                    cur.execute(f"""
+                        UPDATE t_p86122027_youth_job_portal.users 
+                        SET test_result = '{test_result}', updated_at = NOW()
+                        WHERE id = {user_id}
+                    """)
+                    conn.commit()
+                    
+                    print(f"✅ Результаты теста сохранены для пользователя {user_id}")
+                    
+                    return {
+                        'statusCode': 200,
+                        'headers': {**cors_headers, 'Content-Type': 'application/json'},
+                        'body': json.dumps({'success': True, 'message': 'Test result updated'}),
+                        'isBase64Encoded': False
+                    }
+                
+                return {
+                    'statusCode': 400,
+                    'headers': {**cors_headers, 'Content-Type': 'application/json'},
+                    'body': json.dumps({'error': 'Invalid update data'}),
+                    'isBase64Encoded': False
+                }
         
         # === JOBS API ===
         elif resource == 'jobs':

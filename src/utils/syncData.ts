@@ -3,6 +3,7 @@
 const API_BASE = 'https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523';
 const JOBS_API = `${API_BASE}?resource=jobs`;
 const APPLICATIONS_API = `${API_BASE}?resource=applications`;
+const USERS_API = `${API_BASE}?resource=users`;
 
 export async function syncJobsToDatabase(jobs: any[]) {
   for (const job of jobs) {
@@ -174,4 +175,29 @@ export async function loadJobByIdFromDatabase(jobId: number | string): Promise<a
     }
   }
   return null;
+}
+
+export async function loadUsersFromDatabase(): Promise<any[]> {
+  try {
+    console.log('🔄 Загрузка пользователей из БД...');
+    const response = await fetch(USERS_API);
+    if (response.ok) {
+      const data = await response.json();
+      const users = data.users || [];
+      console.log(`✅ Загружено ${users.length} пользователей из БД`);
+      if (users.length > 0) {
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      return users;
+    } else {
+      console.error('❌ Ошибка загрузки пользователей:', response.status);
+    }
+  } catch (error) {
+    console.warn('⚠️ API недоступен, использую кеш:', error);
+    const cached = localStorage.getItem('users');
+    if (cached) {
+      return JSON.parse(cached);
+    }
+  }
+  return [];
 }

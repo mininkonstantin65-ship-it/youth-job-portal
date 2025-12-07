@@ -12,6 +12,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
+import { useEffect } from 'react';
+import { loadUsersFromDatabase } from '@/utils/syncData';
 
 export interface ResponseData {
   userId: string;
@@ -36,6 +38,7 @@ interface CandidateFullData {
   name: string;
   email: string;
   age: number;
+  phone?: string;
   completedTest: boolean;
   testResult?: string;
   testScore?: number;
@@ -47,6 +50,10 @@ const ResponsesTab = ({ responses, responsesByJob, formatTime }: ResponsesTabPro
   const navigate = useNavigate();
   const { user } = useAuth();
   const isPremium = user?.subscription === 'premium' || user?.subscription === 'premium_plus';
+
+  useEffect(() => {
+    loadUsersFromDatabase();
+  }, []);
 
   const getCandidateData = (userId: string): CandidateFullData | null => {
     const users = JSON.parse(localStorage.getItem('users') || '[]');

@@ -202,7 +202,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   };
 
-  const updateTestResult = (result: string) => {
+  const updateTestResult = async (result: string) => {
     if (user) {
       const updatedUser = { ...user, completedTest: true, testResult: result };
       setUser(updatedUser);
@@ -213,6 +213,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (userIndex !== -1) {
         users[userIndex] = { ...users[userIndex], completedTest: true, testResult: result };
         localStorage.setItem('users', JSON.stringify(users));
+      }
+
+      // Отправка результатов в базу данных
+      try {
+        console.log('🚀 Сохранение результатов теста в БД для пользователя:', user.email);
+        const response = await fetch(`https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=users&id=${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ testResult: result })
+        });
+
+        if (!response.ok) {
+          console.error('❌ Ошибка сохранения результатов теста в БД');
+        } else {
+          console.log('✅ Результаты теста сохранены в БД');
+        }
+      } catch (error) {
+        console.error('❌ Критическая ошибка при сохранении результатов теста:', error);
       }
     }
   };

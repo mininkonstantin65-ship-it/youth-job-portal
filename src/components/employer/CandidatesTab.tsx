@@ -10,6 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useEffect } from 'react';
+import { loadUsersFromDatabase } from '@/utils/syncData';
 
 interface CandidatesTabProps {
   allUsers: any[];
@@ -18,6 +20,10 @@ interface CandidatesTabProps {
 
 const CandidatesTab = ({ allUsers, userSubscription }: CandidatesTabProps) => {
   const isPremium = userSubscription === 'premium' || userSubscription === 'premium_plus';
+  
+  useEffect(() => {
+    loadUsersFromDatabase();
+  }, []);
   return (
     <Card>
       <CardHeader>

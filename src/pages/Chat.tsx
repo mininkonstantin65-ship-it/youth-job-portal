@@ -200,10 +200,12 @@ const Chat = () => {
 
       const interviewDateTime = `${interviewDate}T${interviewTime}:00`;
       
+      const jobIdToSend = id && id !== 'undefined' ? String(id) : jobInfo?.id || '';
+      
       console.log('📤 Создание собеседования:', {
         userId: responseUser.id,
         userName: responseUser.name,
-        jobId: Number(id),
+        jobId: jobIdToSend,
         jobTitle: jobInfo?.title,
         date: interviewDateTime
       });
@@ -216,7 +218,7 @@ const Chat = () => {
           userName: responseUser.name,
           userEmail: responseUser.email,
           userAge: responseUser.age || 16,
-          jobId: Number(id),
+          jobId: jobIdToSend,
           jobTitle: jobInfo?.title || '',
           date: interviewDateTime,
           time: interviewTime,

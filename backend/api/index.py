@@ -140,7 +140,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 }
             
             if method == 'PUT':
-                user_id = params.get('id', '')
+                user_id = query_params.get('id', '')
                 body_data = json.loads(event.get('body', '{}'))
                 
                 print(f"🔄 Обновление пользователя id={user_id}, данные: {body_data}")

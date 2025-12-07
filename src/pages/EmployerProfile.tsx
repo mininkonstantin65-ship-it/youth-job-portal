@@ -65,6 +65,7 @@ const EmployerProfile = () => {
             userId: r.userId || r.user_id,
             userName: r.userName || r.user_name,
             userEmail: r.userEmail || r.user_email,
+            userPhone: r.userPhone || r.user_phone,
             userAge: r.userAge || r.user_age,
             jobId: jobIdFromResponse,
             jobTitle: job?.title || 'Вакансия',

@@ -19,6 +19,7 @@ export interface ResponseData {
   userId: string;
   userName: string;
   userEmail: string;
+  userPhone?: string;
   userAge: number;
   jobId: number | string;
   jobTitle: string;
@@ -103,6 +104,12 @@ const ResponsesTab = ({ responses, responsesByJob, formatTime }: ResponsesTabPro
                           <Icon name="Mail" size={14} className="text-muted-foreground" />
                           <span className="text-sm text-muted-foreground">{response.userEmail}</span>
                         </div>
+                        {response.userPhone && (
+                          <div className="flex items-center gap-2 mb-2">
+                            <Icon name="Phone" size={14} className="text-muted-foreground" />
+                            <span className="text-sm text-muted-foreground">{response.userPhone}</span>
+                          </div>
+                        )}
                         {response.testDate && (
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Icon name="Calendar" size={12} />

@@ -1,6 +1,6 @@
 // Утилиты для синхронизации данных с БД
 
-const API_BASE = 'https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523';
+const API_BASE = 'https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931';
 const JOBS_API = `${API_BASE}?resource=jobs`;
 const APPLICATIONS_API = `${API_BASE}?resource=applications`;
 const USERS_API = `${API_BASE}?resource=users`;

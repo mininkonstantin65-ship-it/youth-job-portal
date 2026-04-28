@@ -32,7 +32,7 @@ const EmployerProfile = () => {
       console.log('✅ Загружено вакансий из БД:', dbJobs.length);
 
       try {
-        const response = await fetch('https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=users');
+        const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users');
         if (response.ok) {
           const data = await response.json();
           const usersList = (data.users || []).filter((u: any) => u.role !== 'employer');
@@ -77,7 +77,7 @@ const EmployerProfile = () => {
 
       try {
         console.log('📋 Загрузка собеседований для вакансий:', employerJobIds);
-        const interviewsResponse = await fetch('https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=interviews');
+        const interviewsResponse = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=interviews');
         if (interviewsResponse.ok) {
           const data = await interviewsResponse.json();
           const allDbInterviews = data.interviews || [];

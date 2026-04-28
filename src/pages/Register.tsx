@@ -21,8 +21,8 @@ const Register = () => {
     setError('');
 
     const ageNum = parseInt(age);
-    if (ageNum < 14 || ageNum > 17) {
-      setError('Возраст должен быть от 14 до 17 лет');
+    if (ageNum < 14 || ageNum > 24) {
+      setError('Возраст должен быть от 14 до 24 лет');
       return;
     }
 
@@ -90,8 +90,8 @@ const Register = () => {
                 onChange={(e) => setAge(e.target.value)}
                 required
                 min={14}
-                max={17}
-                placeholder="14-17 лет"
+                max={24}
+                placeholder="14-24 лет"
               />
             </div>
 

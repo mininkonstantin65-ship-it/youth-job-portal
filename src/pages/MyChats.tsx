@@ -6,7 +6,7 @@ import Icon from '@/components/ui/icon';
 import { useState, useEffect } from 'react';
 import { loadJobByIdFromDatabase } from '@/utils/syncData';
 
-const API_BASE = 'https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523';
+const API_BASE = 'https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931';
 const MESSAGES_API = `${API_BASE}?resource=messages`;
 
 interface Conversation {

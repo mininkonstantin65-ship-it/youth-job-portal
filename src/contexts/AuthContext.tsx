@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch('https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=login', {
+      const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -105,7 +105,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('🚀 Регистрация через API:', { name, email, age, phone });
       
-      const response = await fetch('https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=users', {
+      const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, name, age, phone: phone || '' })
@@ -149,7 +149,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('🚀 Регистрация работодателя через API:', { name, email, companyName });
       
-      const response = await fetch('https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=users', {
+      const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -218,7 +218,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Отправка результатов в базу данных
       try {
         console.log('🚀 Сохранение результатов теста в БД для пользователя:', user.email);
-        const response = await fetch(`https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523?resource=users&id=${user.id}`, {
+        const response = await fetch(`https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users&id=${user.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ testResult: result })

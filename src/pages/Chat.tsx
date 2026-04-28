@@ -17,7 +17,7 @@ interface Message {
   timestamp: number;
 }
 
-const API_BASE = 'https://functions.poehali.dev/81ba1a01-47ea-40ac-9ce8-1dc2aa32d523';
+const API_BASE = 'https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931';
 const MESSAGES_API = `${API_BASE}?resource=messages`;
 const EMPLOYER_ID = '6';
 

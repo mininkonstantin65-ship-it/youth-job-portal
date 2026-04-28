@@ -20,11 +20,7 @@ const Register = () => {
     e.preventDefault();
     setError('');
 
-    const ageNum = parseInt(age);
-    if (ageNum < 14 || ageNum > 24) {
-      setError('Возраст должен быть от 14 до 24 лет');
-      return;
-    }
+    const ageNum = parseInt(age) || 0;
 
     const result = await register(name, email, password, ageNum, phone);
     if (result.success) {
@@ -89,9 +85,7 @@ const Register = () => {
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
                 required
-                min={14}
-                max={24}
-                placeholder="14-24 лет"
+                placeholder="Ваш возраст"
               />
             </div>
 

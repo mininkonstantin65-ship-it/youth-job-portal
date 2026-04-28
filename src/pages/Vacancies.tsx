@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 import { useAuth } from '@/contexts/AuthContext';
 import VacancyMap from '@/components/VacancyMap';
-import { Job } from '@/data/jobs';
+import { Job, defaultJobs } from '@/data/jobs';
 import { loadJobsFromDatabase } from '@/utils/syncData';
 
 const Vacancies = () => {
@@ -22,7 +22,6 @@ const Vacancies = () => {
       if (jobsFromDB.length > 0) {
         setAllJobs(jobsFromDB);
       } else {
-        const { defaultJobs } = require('@/data/jobs');
         setAllJobs(defaultJobs);
       }
     };

@@ -43,7 +43,7 @@ const Index = () => {
             к успешной карьере
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Платформа для подростков 14-17 лет в Красноярске. 
+            Платформа для молодых соискателей 14-24 лет в Красноярске. 
             Найди работу своей мечты и построй будущее уже сегодня.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
@@ -71,7 +71,7 @@ const Index = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Поиск вакансий</h3>
             <p className="text-muted-foreground">
-              Более 20 актуальных вакансий для подростков в Красноярске с зарплатой от 25000₽
+              Более 20 актуальных вакансий для молодёжи 14-24 лет в Красноярске с зарплатой от 25000₽
             </p>
           </div>
 
@@ -91,7 +91,7 @@ const Index = () => {
             </div>
             <h3 className="text-xl font-semibold mb-3">Безопасность</h3>
             <p className="text-muted-foreground">
-              Все вакансии проверены и соответствуют законам о трудоустройстве подростков
+              Все вакансии проверены и соответствуют законам о трудоустройстве молодёжи
             </p>
           </div>
         </div>
@@ -177,7 +177,7 @@ const Index = () => {
               <div>
                 <h4 className="font-semibold mb-2">Легальное трудоустройство</h4>
                 <p className="text-sm text-muted-foreground">
-                  Все вакансии соответствуют трудовому кодексу РФ для подростков
+                  Все вакансии соответствуют трудовому кодексу РФ для молодых соискателей
                 </p>
               </div>
             </div>
@@ -220,8 +220,8 @@ const Index = () => {
 
       <footer className="border-t border-border bg-card/30 py-8">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p className="mb-2">© 2025 Успех 14. Все права защищены.</p>
-          <p className="text-sm">Платформа трудоустройства для подростков 14-17 лет в Красноярске</p>
+          <p className="mb-2">© 2026 Успех 14. Все права защищены.</p>
+          <p className="text-sm">Платформа трудоустройства для молодых соискателей 14-24 лет в Красноярске</p>
         </div>
       </footer>
     </div>

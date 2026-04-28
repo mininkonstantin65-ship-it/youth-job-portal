@@ -87,7 +87,7 @@ const Vacancies = () => {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-4">Вакансии в Красноярске</h1>
           <p className="text-muted-foreground text-lg">
-            {allJobs.length} доступных вакансий для подростков 14-17 лет
+            {allJobs.length} доступных вакансий для молодёжи 14-24 лет
           </p>
         </div>
 

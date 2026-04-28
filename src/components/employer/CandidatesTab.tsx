@@ -29,7 +29,7 @@ const CandidatesTab = ({ allUsers, userSubscription }: CandidatesTabProps) => {
       <CardHeader>
         <CardTitle>База кандидатов</CardTitle>
         <CardDescription>
-          Все зарегистрированные подростки на платформе
+          Все зарегистрированные молодые соискатели на платформе
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -11,6 +11,23 @@
       "bodyMatcher": "partial"
     },
     {
+      "name": "Register new user",
+      "method": "POST",
+      "path": "/?resource=users",
+      "body": {
+        "email": "test_auto@example.com",
+        "password": "test123",
+        "name": "Тест Авто",
+        "age": 16,
+        "phone": "89001234567"
+      },
+      "expectedStatus": 201,
+      "expectedBody": {
+        "id": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
       "name": "Get all jobs",
       "method": "GET",
       "path": "/?resource=jobs",

@@ -13,16 +13,19 @@ const Register = () => {
   const [age, setAge] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
     const ageNum = parseInt(age) || 0;
 
     const result = await register(name, email, password, ageNum, phone);
+    setIsLoading(false);
     if (result.success) {
       navigate('/user-subscription');
     } else {
@@ -107,8 +110,8 @@ const Register = () => {
               </div>
             )}
 
-            <Button type="submit" className="w-full">
-              Зарегистрироваться
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
             </Button>
           </form>
 

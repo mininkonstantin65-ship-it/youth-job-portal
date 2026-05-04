@@ -105,20 +105,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log('🚀 Регистрация через API:', { name, email, age, phone });
       
-      const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name, age, phone: phone || '' })
-      });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000);
+      
+      let response: Response;
+      try {
+        response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, name, age, phone: phone || '' }),
+          signal: controller.signal
+        });
+      } catch (fetchError) {
+        clearTimeout(timeout);
+        throw fetchError;
+      }
+      clearTimeout(timeout);
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('❌ Ошибка регистрации:', errorData);
+        let errorData: Record<string, string> = {};
+        try { errorData = await response.json(); } catch (e) { console.warn('parse error', e); }
+        console.error('❌ Ошибка регистрации:', response.status, errorData);
         
         if (errorData.error === 'Email already exists') {
           return { success: false, error: 'Пользователь с таким email уже существует' };
         }
-        return { success: false, error: 'Ошибка сервера при регистрации' };
+        return { success: false, error: `Ошибка сервера: ${response.status}` };
       }
 
       const data = await response.json();
@@ -140,8 +152,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       return { success: true };
     } catch (error) {
-      console.error('❌ Критическая ошибка:', error);
-      return { success: false, error: 'Не удалось подключиться к серверу' };
+      const msg = error instanceof Error ? error.message : String(error);
+      console.error('❌ Критическая ошибка регистрации:', msg, error);
+      if (msg.includes('abort') || msg.includes('Abort')) {
+        return { success: false, error: 'Превышено время ожидания. Попробуйте ещё раз.' };
+      }
+      return { success: false, error: 'Не удалось подключиться к серверу. Попробуйте ещё раз.' };
     }
   };
 
@@ -209,7 +225,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
       const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const userIndex = users.findIndex((u: any) => u.id === user.id);
+      const userIndex = users.findIndex((u: { id: string }) => u.id === user.id);
       if (userIndex !== -1) {
         users[userIndex] = { ...users[userIndex], completedTest: true, testResult: result };
         localStorage.setItem('users', JSON.stringify(users));
@@ -242,7 +258,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('user', JSON.stringify(updatedUser));
 
       const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const userIndex = users.findIndex((u: any) => u.id === user.id);
+      const userIndex = users.findIndex((u: { id: string }) => u.id === user.id);
       if (userIndex !== -1) {
         users[userIndex] = { ...users[userIndex], subscription, subscriptionExpiry: expiryDate };
         localStorage.setItem('users', JSON.stringify(users));

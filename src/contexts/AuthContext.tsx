@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ email, password })
       });
       
@@ -112,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({ email, password, name, age, phone: phone || '' }),
           signal: controller.signal
         });
@@ -167,7 +167,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       const response = await fetch('https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ 
           email, 
           password, 
@@ -236,7 +236,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('🚀 Сохранение результатов теста в БД для пользователя:', user.email);
         const response = await fetch(`https://functions.poehali.dev/318182ad-4003-4599-b829-602ef6963931?resource=users&id=${user.id}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({ testResult: result })
         });
 
